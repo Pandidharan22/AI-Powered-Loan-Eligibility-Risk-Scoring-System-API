@@ -15,47 +15,58 @@ An end-to-end machine learning system to predict loan default risk and serve pre
 - Pandas, NumPy (Data Processing)
 
 ## 🏗️ Project Structure
+
+## 🏗️ Project Structure
+
 loan-risk-scoring/
 ├── data/
 │   ├── raw/
 │   └── processed/
+│
 ├── notebooks/
 │   ├── 01_eda.ipynb
 │   ├── 02_feature_engineering.ipynb
 │   └── 03_model_training.ipynb
+│
 ├── src/
 │   ├── api/
 │   │   ├── main.py
+│   │   ├── dependencies.py
 │   │   ├── routes/
 │   │   │   ├── prediction.py
 │   │   │   ├── model.py
 │   │   │   └── health.py
-│   │   ├── schemas/
-│   │   │   ├── request.py
-│   │   │   └── response.py
-│   │   └── dependencies.py
+│   │   └── schemas/
+│   │       ├── request.py
+│   │       └── response.py
+│   │
 │   ├── core/
 │   │   ├── config.py
 │   │   ├── logger.py
 │   │   └── constants.py
+│   │
 │   ├── pipeline/
 │   │   ├── preprocessing.py
 │   │   ├── feature_engineering.py
 │   │   └── training.py
+│   │
 │   ├── services/
 │   │   ├── prediction_service.py
 │   │   └── model_service.py
+│   │
 │   └── utils/
 │       └── helpers.py
+│
 ├── models/
 ├── tests/
 ├── visualizations/
+│
 ├── .env
 ├── .env.example
 ├── requirements.txt
-├── pyproject.toml   ← (important upgrade)
+├── pyproject.toml
 ├── README.md
-└── Dockerfile (later)
+└── Dockerfile  # (to be added later)
 
 ## 🧠 Development Journey
 
