@@ -1,0 +1,25 @@
+#python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+#venv
+venv/
+
+#.env
+.env
+
+#data
+data/raw/
+data/processed/
+
+#models
+models/
+
+#notebook checkpoints
+.ipynb_checkpoints/
+
+#OS
+.DS_Store
+Thumbs.db
