@@ -17,7 +17,7 @@ An end-to-end machine learning system to predict loan default risk and serve pre
 ## 🏗️ Project Structure
 
 ## 🏗️ Project Structure
-
+```
 loan-risk-scoring/
 ├── data/
 │   ├── raw/
@@ -67,7 +67,7 @@ loan-risk-scoring/
 ├── pyproject.toml
 ├── README.md
 └── Dockerfile  # (to be added later)
-
+```
 ## 🧠 Development Journey
 
 ### Phase 0: Setup & System Design
