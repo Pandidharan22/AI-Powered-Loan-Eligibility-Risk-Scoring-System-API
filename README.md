@@ -84,3 +84,27 @@ loan-risk-scoring/
 - Importance of environment isolation in ML systems
 - Difference between writing code vs designing a system
 - Early logging and config management significantly improve scalability
+
+### Phase 1: Exploratory Data Analysis (EDA)
+
+- Performed comprehensive data inspection including schema validation, data types, and summary statistics
+- Identified the problem as a **binary classification task with significant class imbalance (~11.6% defaults)**
+- Conducted univariate analysis to understand feature distributions and detect anomalies
+- Performed bivariate and multivariate analysis using KDE plots, correlation heatmaps, and pairplots
+- Analyzed feature relationships with the target to identify potential predictive signals
+- Evaluated categorical variables using **default rate distributions instead of raw counts** for better insight
+- Discovered that most features exhibit **weak linear relationships but non-linear separability**
+- Identified that the dataset is likely **synthetic**, with uniform distributions and minimal feature correlation
+
+#### Challenges Faced
+- Initial assumption that correlation would reveal strong signals proved incorrect due to near-zero linear relationships
+- Difficulty interpreting patterns in a dataset with **uniform distributions and low natural variance**
+- Misleading nature of standard plots (e.g., countplots) required shifting to **probability-based analysis**
+- Understanding why features showed separation in KDE but weak correlation required deeper statistical reasoning
+
+#### Key Learnings
+- **Correlation ≠ Predictive Power** — non-linear relationships can exist even when correlation is weak
+- Feature distributions and interactions provide more insight than summary statistics alone
+- In low-signal datasets, **feature engineering becomes more important than model selection**
+- Importance of analyzing **relative relationships (ratios, interactions)** rather than absolute values
+- Real-world ML problems often require extracting signal rather than relying on obvious patterns
