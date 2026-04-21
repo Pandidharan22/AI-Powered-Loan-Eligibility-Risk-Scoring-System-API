@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
@@ -11,24 +12,27 @@ class DataPreprocessor:
         df = df.copy()
     
         df['Loan_to_Income'] = df['LoanAmount'] / df['Income']
-        df['Income_per_CreditLine'] = df['Income'] / df['NumCreditLines']
-        df['Loan_per_CreditLine'] = df['LoanAmount'] / df['NumCreditLines']
+        df['Income_per_CreditLine'] = df['Income'] / df['NumCreditLines'].replace(0, np.nan)    
+        df['Loan_per_CreditLine'] = df['LoanAmount'] / df['NumCreditLines'].replace(0, np.nan)
     
         df['Risk_Interaction'] = df['CreditScore'] * df['InterestRate']
         df['Debt_Stress'] = df['DTIRatio'] * df['LoanAmount']
     
-        df['Employment_Stability'] = df['MonthsEmployed'] / df['Age']
+        df['Employment_Stability'] = df['MonthsEmployed'] / df['Age'].replace(0, np.nan)
     
         df['CreditScore_bin'] = pd.cut(df['CreditScore'], bins=5)
         df['DTI_bin'] = pd.cut(df['DTIRatio'], bins=[0, 0.3, 0.6, 1])
-    
-        binary_map = {'Yes': 1, 'No': 0}
-    
-        df['HasMortgage'] = df['HasMortgage'].map(binary_map).astype(int)
-        df['HasDependents'] = df['HasDependents'].map(binary_map).astype(int)
-        df['HasCoSigner'] = df['HasCoSigner'].map(binary_map).astype(int)
-    
+
+        df['HasMortgage'] = self._encode_binary(df['HasMortgage']).fillna(0).astype(int)
+        df['HasDependents'] = self._encode_binary(df['HasDependents']).fillna(0).astype(int)
+        df['HasCoSigner'] = self._encode_binary(df['HasCoSigner']).fillna(0).astype(int)
+       
+        df = df.replace([np.inf, -np.inf], np.nan)
+
         return df
+    
+    def _encode_binary(self, series):
+        return series.astype(str).str.strip().str.lower().map({'yes':1, 'no':0})
 
     def _get_feature_groups(self):
         num_cols = [
@@ -73,7 +77,7 @@ class DataPreprocessor:
     def fit(self, df: pd.DataFrame):
         df = self._engineer_features(df)
     
-        X = df.drop(columns=['LoanID', 'Default'])
+        X = df.copy()
     
         self.preprocessor = self._build_preprocessor()
         self.preprocessor.fit(X)
@@ -83,7 +87,7 @@ class DataPreprocessor:
     def transform(self, df: pd.DataFrame):
         df = self._engineer_features(df)
     
-        X = df.drop(columns=['LoanID', 'Default'])
+        X = df.copy()
     
         return self.preprocessor.transform(X)
     
