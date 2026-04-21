@@ -108,3 +108,26 @@ loan-risk-scoring/
 - In low-signal datasets, **feature engineering becomes more important than model selection**
 - Importance of analyzing **relative relationships (ratios, interactions)** rather than absolute values
 - Real-world ML problems often require extracting signal rather than relying on obvious patterns
+
+### Phase 2: Feature Engineering & Preprocessing
+
+- Designed a structured feature engineering strategy based on EDA insights, focusing on extracting signal from weakly correlated features
+- Implemented ratio-based, interaction, and stability features to capture real-world financial risk relationships
+- Developed a modular `DataPreprocessor` class to encapsulate feature engineering and preprocessing logic
+- Built a `ColumnTransformer` pipeline to handle numerical scaling and categorical encoding in a unified workflow
+- Ensured proper ML workflow by applying preprocessing only on training data to prevent data leakage
+- Serialized the preprocessing pipeline using `joblib` for reuse in model training and API inference
+
+#### Challenges Faced
+- Encountered misleading feature behavior due to synthetic-like data with weak linear relationships
+- Faced data leakage risk while integrating preprocessing with train-test workflow
+- Debugged `ModuleNotFoundError` due to notebook execution context and resolved using proper path handling
+- Encountered `IntCastingNaNError` during binary encoding, highlighting the need for robust and defensive data transformations
+- Faced stale import issues while modifying pipeline code, requiring module reload during iterative development
+
+#### Key Learnings
+- Feature engineering is the primary driver of performance in low-signal datasets
+- Importance of designing **idempotent and robust preprocessing pipelines** that work across different data states
+- Real-world ML systems require strict separation between training and inference workflows
+- Serialization of preprocessing is as important as model persistence for deployment
+- Debugging environment and import issues is a critical part of ML engineering, not just modeling
