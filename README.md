@@ -131,3 +131,33 @@ loan-risk-scoring/
 - Real-world ML systems require strict separation between training and inference workflows
 - Serialization of preprocessing is as important as model persistence for deployment
 - Debugging environment and import issues is a critical part of ML engineering, not just modeling
+
+### Phase 3: Model Training, Evaluation & Interpretability
+
+- Defined a structured modeling strategy for an **imbalanced binary classification problem** with asymmetric risk
+- Established appropriate evaluation metrics including **Recall, Precision, F1-score, and ROC-AUC**, avoiding misleading accuracy-based evaluation
+- Trained a baseline Logistic Regression model to establish a performance benchmark
+- Identified severe recall issues due to default decision threshold (0.5) and applied **threshold tuning** to improve minority class detection
+- Introduced **class weighting** to handle imbalance at the model level and improve recall significantly
+- Compared multiple models including Logistic Regression, Random Forest, and Gradient Boosting
+- Observed that feature engineering enabled even simple models to perform competitively
+- Selected **Gradient Boosting** as the final model based on best **F1 score and balanced performance**
+- Applied threshold tuning on the final model to optimize precision-recall trade-off
+- Implemented **SHAP (SHapley Additive Explanations)** to interpret model predictions and understand feature contributions
+
+#### Challenges Faced
+- Initial models showed high accuracy but extremely low recall due to class imbalance
+- Understanding that poor performance was due to **threshold choice rather than model capability**
+- Managing trade-offs between precision and recall depending on business objectives
+- Random Forest underperforming despite expectations, requiring deeper analysis of dataset characteristics
+- Difficulty interpreting SHAP outputs due to transformed feature space and lack of feature names
+- Ensuring consistent evaluation across models while avoiding data leakage
+
+#### Key Learnings
+- **Threshold tuning is critical** in imbalanced classification and can drastically improve model performance
+- Handling imbalance requires both **model-level adjustments (class weights)** and **decision-level adjustments (threshold tuning)**
+- Feature engineering can significantly reduce the need for complex models by making patterns more learnable
+- Model selection is **context-driven**, not purely metric-driven (recall vs precision trade-off)
+- Tree-based models do not always outperform linear models, especially in low-signal or synthetic datasets
+- SHAP enables **model transparency**, helping validate that predictions align with domain intuition
+- A complete ML system includes not just training, but also **evaluation, optimization, and interpretability**
