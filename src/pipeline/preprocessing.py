@@ -87,7 +87,7 @@ class DataPreprocessor:
     def transform(self, df: pd.DataFrame):
         df = self._engineer_features(df)
     
-        X = df.copy()
+        X = df.drop(columns=['LoanID', 'Default'], errors='ignore')
     
         return self.preprocessor.transform(X)
     
