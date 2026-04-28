@@ -85,6 +85,10 @@ class DataPreprocessor:
         return self
     
     def transform(self, df: pd.DataFrame):
+
+        if self.preprocessor is None:
+            raise ValueError("Preprocessor has not been fitted yet.")
+    
         df = self._engineer_features(df)
     
         X = df.drop(columns=['LoanID', 'Default'], errors='ignore')
