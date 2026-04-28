@@ -91,6 +91,8 @@ Trained ML Model
 
 Final threshold selected: **0.20**
 
+---
+
 ## 🔌 API Usage
 
 ### Endpoint: `/predict`
@@ -115,12 +117,13 @@ Final threshold selected: **0.20**
   "LoanPurpose": "Home",
   "HasCoSigner": "Yes"
 }
-
+```
+```
 {
   "default_probability": 0.115,
   "prediction": 0
 }
-
+```
 ---
 
 ## 🌐 Live Demo
