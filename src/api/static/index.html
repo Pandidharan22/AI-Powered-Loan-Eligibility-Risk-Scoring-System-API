@@ -5,42 +5,72 @@
     <style>
         body {
             font-family: Arial;
-            max-width: 600px;
+            max-width: 700px;
             margin: auto;
             padding: 20px;
         }
+        h2 {
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
         input, select {
             width: 100%;
-            margin-bottom: 10px;
+            margin-top: 5px;
             padding: 8px;
         }
         button {
-            padding: 10px;
+            margin-top: 20px;
+            padding: 12px;
             width: 100%;
             background: black;
             color: white;
             border: none;
+            font-size: 16px;
         }
         #result {
             margin-top: 20px;
-            font-weight: bold;
+            padding: 15px;
+            background: #f2f2f2;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
 
-<h2>Loan Risk Prediction</h2>
+<h2>Loan Default Risk Predictor</h2>
 
-<input id="Age" placeholder="Age">
-<input id="Income" placeholder="Income">
-<input id="LoanAmount" placeholder="Loan Amount">
-<input id="CreditScore" placeholder="Credit Score">
-<input id="MonthsEmployed" placeholder="Months Employed">
-<input id="NumCreditLines" placeholder="Num Credit Lines">
-<input id="InterestRate" placeholder="Interest Rate">
-<input id="LoanTerm" placeholder="Loan Term">
-<input id="DTIRatio" placeholder="DTI Ratio">
+<label>Age (years)</label>
+<input id="Age" placeholder="e.g., 35">
 
+<label>Annual Income</label>
+<input id="Income" placeholder="e.g., 50000">
+
+<label>Loan Amount</label>
+<input id="LoanAmount" placeholder="e.g., 150000">
+
+<label>Credit Score (300–850)</label>
+<input id="CreditScore" placeholder="e.g., 650">
+
+<label>Months Employed</label>
+<input id="MonthsEmployed" placeholder="e.g., 24">
+
+<label>Number of Credit Lines</label>
+<input id="NumCreditLines" placeholder="e.g., 2">
+
+<label>Interest Rate (%)</label>
+<input id="InterestRate" placeholder="e.g., 12.5">
+
+<label>Loan Term (months)</label>
+<input id="LoanTerm" placeholder="e.g., 36">
+
+<label>Debt-to-Income Ratio (0–1)</label>
+<input id="DTIRatio" placeholder="e.g., 0.4">
+
+<label>Education Level</label>
 <select id="Education">
     <option>Bachelor's</option>
     <option>Master's</option>
@@ -48,6 +78,7 @@
     <option>High School</option>
 </select>
 
+<label>Employment Type</label>
 <select id="EmploymentType">
     <option>Full-time</option>
     <option>Part-time</option>
@@ -55,22 +86,26 @@
     <option>Unemployed</option>
 </select>
 
+<label>Marital Status</label>
 <select id="MaritalStatus">
     <option>Single</option>
     <option>Married</option>
     <option>Divorced</option>
 </select>
 
+<label>Has Mortgage?</label>
 <select id="HasMortgage">
     <option>Yes</option>
     <option>No</option>
 </select>
 
+<label>Has Dependents?</label>
 <select id="HasDependents">
     <option>Yes</option>
     <option>No</option>
 </select>
 
+<label>Loan Purpose</label>
 <select id="LoanPurpose">
     <option>Home</option>
     <option>Auto</option>
@@ -79,12 +114,13 @@
     <option>Other</option>
 </select>
 
+<label>Has Co-Signer?</label>
 <select id="HasCoSigner">
     <option>Yes</option>
     <option>No</option>
 </select>
 
-<button onclick="predict()">Predict</button>
+<button onclick="predict()">Predict Risk</button>
 
 <div id="result"></div>
 
@@ -117,8 +153,12 @@ async function predict() {
 
     const result = await response.json();
 
-    document.getElementById("result").innerText =
-        `Probability: ${result.default_probability.toFixed(2)} | Prediction: ${result.prediction}`;
+    const label = result.prediction === 1 ? "YES (High Risk)" : "NO (Low Risk)";
+
+    document.getElementById("result").innerHTML = `
+        <strong>Default Probability:</strong> ${(result.default_probability * 100).toFixed(2)}%<br>
+        <strong>Likely to Default:</strong> ${label}
+    `;
 }
 </script>
 
