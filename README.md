@@ -1,12 +1,34 @@
-# AI-Powered Loan Eligibility & Risk Scoring System
+## 🚀 AI-Powered Loan Eligibility & Risk Scoring System
 
-## 🚀 Overview
-An end-to-end machine learning system to predict loan default risk and serve predictions via a FastAPI backend.
+A **production-grade end-to-end machine learning system** that predicts loan default risk and serves real-time predictions via a FastAPI backend with an integrated frontend UI.
 
-## 🎯 Objectives
-- Predict probability of loan default (risk score)
-- Provide interpretable insights into model decisions
-- Serve predictions through a production-ready API
+🔗 **Live Demo:** https://huggingface.co/spaces/Pandidharan22/loan-risk-scoring-api  
+📊 **Model Type:** Binary Classification (Imbalanced Learning)  
+⚙️ **Deployment:** Docker + Hugging Face Spaces  
+
+---
+
+### 🎯 Why this Project?
+
+Most ML projects stop at training a model.
+
+This project goes further:
+- Builds a **complete ML system**
+- Handles **real-world challenges** (imbalance, deployment, inference)
+- Demonstrates **ML Engineering + Backend + Deployment skills**
+
+---
+
+### ⚡ Key Highlights
+
+- 🔍 Advanced Feature Engineering for low-signal data
+- ⚖️ Imbalanced Classification handled via **class weights + threshold tuning**
+- 📈 Model interpretability using **SHAP**
+- 🚀 Production-ready FastAPI backend
+- 🌐 Integrated frontend for real-time predictions
+- 🐳 Fully Dockerized and deployed on Hugging Face
+
+---
 
 ## 🧱 Tech Stack
 - Python 3.10+
@@ -14,7 +36,102 @@ An end-to-end machine learning system to predict loan default risk and serve pre
 - Scikit-learn (ML)
 - Pandas, NumPy (Data Processing)
 
-## 🏗️ Project Structure
+---
+
+## 🏗️ System Architecture
+```
+Client (Frontend UI)
+        ↓
+FastAPI API (/predict)
+        ↓
+Prediction Service
+        ↓   
+    Preprocessor 
+(Feature Engineering + Encoding)
+        ↓
+Trained ML Model 
+(Gradient Boosting)
+```
+
+---
+
+### 🔁 Inference Flow
+
+1. User inputs data via UI  
+2. Request sent to `/predict` endpoint  
+3. Data transformed using saved preprocessing pipeline  
+4. Model generates probability  
+5. Threshold applied → final decision  
+6. Response returned to UI  
+
+---
+
+## 📊 Model Performance
+
+| Metric        | Value |
+|--------------|------|
+| ROC-AUC       | ~0.75 |
+| F1 Score      | ~0.36 |
+| Precision     | ~0.32 |
+| Recall        | ~0.41 |
+
+### 🎯 Key Insight
+
+- Default accuracy (~88%) was misleading due to class imbalance  
+- After threshold tuning:
+  - Recall improved significantly  
+  - Model became usable for risk detection  
+
+---
+
+### ⚖️ Business Trade-off
+
+- Lower threshold → higher recall (catch more defaulters)
+- Higher threshold → higher precision (reduce false alarms)
+
+Final threshold selected: **0.20**
+
+## 🔌 API Usage
+
+### Endpoint: `/predict`
+
+**Request Example:**
+```json
+{
+  "Age": 35,
+  "Income": 50000,
+  "LoanAmount": 150000,
+  "CreditScore": 650,
+  "MonthsEmployed": 24,
+  "NumCreditLines": 2,
+  "InterestRate": 12.5,
+  "LoanTerm": 36,
+  "DTIRatio": 0.4,
+  "Education": "Bachelor's",
+  "EmploymentType": "Full-time",
+  "MaritalStatus": "Single",
+  "HasMortgage": "No",
+  "HasDependents": "Yes",
+  "LoanPurpose": "Home",
+  "HasCoSigner": "Yes"
+}
+
+{
+  "default_probability": 0.115,
+  "prediction": 0
+}
+
+---
+
+## 🌐 Live Demo
+
+👉 https://huggingface.co/spaces/Pandidharan22/loan-risk-scoring-api
+
+- Interactive UI for real-time prediction
+- Fully deployed using Docker
+- No setup required
+
+---
 
 ## 🏗️ Project Structure
 ```
@@ -68,6 +185,9 @@ loan-risk-scoring/
 ├── README.md
 └── Dockerfile  # (to be added later)
 ```
+
+---
+
 ## 🧠 Development Journey
 
 ### Phase 0: Setup & System Design
