@@ -9,11 +9,13 @@ router = APIRouter()
 @router.post("/predict", response_model=PredictionResponse)
 def predict(request: PredictionRequest):
     try:
-        result = prediction_service.predict(request.model_dump())
-        return result
+        return prediction_service.predict(request.model_dump())
 
-    except Exception as e:
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    except Exception:
         raise HTTPException(
             status_code=500,
-            detail=f"Prediction failed: {str(e)}"
+            detail="Internal server error"
         )

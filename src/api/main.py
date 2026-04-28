@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from src.core.config import settings
 from src.core.logger import logger
-from src.api.routes import prediction
+from src.api.routes import prediction, health
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -22,3 +22,4 @@ def root():
     return {"message" : f"{settings.app_name} is running"}
 
 app.include_router(prediction.router)
+app.include_router(health.router)
