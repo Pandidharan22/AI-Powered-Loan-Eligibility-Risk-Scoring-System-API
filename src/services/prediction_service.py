@@ -3,6 +3,7 @@ from src.services.model_service import model_service
 from src.core.config import settings
 from sklearn.ensemble import GradientBoostingClassifier
 from src.pipeline.preprocessing import DataPreprocessor
+from src.core.logger import logger
 
 class PredictionService:
     def __init__(self):
@@ -10,20 +11,27 @@ class PredictionService:
         self.preprocessor: DataPreprocessor = model_service.get_preprocessor()
 
     def predict(self, data: dict):
-        df = pd.DataFrame([data])
+        try:
+            logger.info("Received prediction request")
 
-        df["LoanID"] = "API_INPUT"
+            df = pd.DataFrame([data])
+            df["LoanID"] = "API_INPUT"
 
-        X_transformed = self.preprocessor.transform(df)
+            X_transformed = self.preprocessor.transform(df)
 
-        proba = self.model.predict_proba(X_transformed)[0][1]
+            proba = self.model.predict_proba(X_transformed)[0][1]
+            prediction = int(proba >= settings.threshold)
 
-        prediction = int(proba >= settings.threshold)
+            logger.info(f"Prediction made | Probability: {proba:.4f} | Decision: {prediction}")
 
-        return {
-            "default_probability": float(proba),
-            "prediction": prediction
-        }
+            return {
+                "default_probability": float(proba),
+                "prediction": prediction
+            }
+
+        except Exception as e:
+            logger.error(f"Prediction error: {str(e)}")
+            raise
 
 
 prediction_service = PredictionService()
