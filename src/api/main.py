@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from src.core.config import settings
 from src.core.logger import logger
 from src.api.routes import prediction, health
+from fastapi.staticfiles import StaticFiles
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -15,11 +16,13 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
-    
 @app.get("/")
 def root():
     logger.info("Root endpoint called")
     return {"message" : f"{settings.app_name} is running"}
 
+app.mount("/app", StaticFiles(directory="src/api/static", html=True), name="static")
+
 app.include_router(prediction.router)
 app.include_router(health.router)
+
